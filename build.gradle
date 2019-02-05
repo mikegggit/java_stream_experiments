@@ -82,7 +82,7 @@ jar {
 task runApp(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
 
-  main = 'com.notatracer.demo.SimpleStreamSedesDemo'
+  main = 'com.notatracer.demo.StreamProducerDemo'
 
   // arguments to pass to the application
   // args 'appArg1'

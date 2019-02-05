@@ -13,7 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.util.Optional;
 
 /**
- * Created by grudkowm on 2/2/19.
+ *
  */
 @SpringBootApplication
 public class StreamGeneratorDemo implements ApplicationListener<ApplicationReadyEvent> {

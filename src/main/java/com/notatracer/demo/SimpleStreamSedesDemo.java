@@ -1,6 +1,7 @@
 package com.notatracer.demo;
 
 import com.notatracer.messaging.*;
+import com.notatracer.messaging.util.MessagingUtil;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -21,10 +22,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static com.notatracer.messaging.util.MessagingUtil.underlyings;
 import static org.apache.coyote.http11.Constants.a;
 
 /**
- * Demonstratex creation of a simple non-realistic stream consisting of 
+ * Demonstrates creation of a simple non-realistic stream consisting of
  * two message types.
  * 
  * Stream is serialized to disk, loaded, and replayed.
@@ -38,14 +40,7 @@ public class SimpleStreamSedesDemo {
 
     public static UndMessage undMessage = new UndMessage();
     public static ExchMessage exchMessage = new ExchMessage();
-    public static List<String> underlyings = Arrays.asList("AAPL", "BUD", "CAT", "F", "GE", "LLL", "MU", "ORCL", "TSLA", "V", "XOM");
-    public static List<Byte> exchangeCodes = Arrays.asList((byte)'A', (byte)'B', (byte)'C');
-    public static List<Byte> undState = Arrays.asList((byte)'C', (byte)'H', (byte)'O');
-    public static List<Byte> exchState = Arrays.asList((byte)'C', (byte)'H', (byte)'O');
-    public int MAX_OPTIONS = 1000;
-    public int MAX_UNDERLYINGS = 500;
 
-    public Random rand = new Random();
     public SimpleStreamSedesDemo() {}
 
     public static void main(String[] args) throws IOException {
@@ -62,7 +57,7 @@ public class SimpleStreamSedesDemo {
     }
 
     private void streamGeneratedWSupplier() {
-        Supplier<UndMessage> undMessageSupplier = () -> generateRandomUndMessage();
+        Supplier<UndMessage> undMessageSupplier = () -> MessagingUtil.generateRandomUndMessage(undMessage);
 
         Stream<UndMessage> streamGenerated =
                 Stream.generate(undMessageSupplier);
@@ -88,7 +83,7 @@ public class SimpleStreamSedesDemo {
                         undMessage.clear();
                         bb.clear();
                         header.clear();
-                        UndMessage message = generateRandomUndMessage();
+                        UndMessage message = MessagingUtil.generateRandomUndMessage(undMessage);
                         System.out.println(message);
                         message.encode(bb);
                         bb.flip();
@@ -175,12 +170,12 @@ public class SimpleStreamSedesDemo {
                     exchMessage.clear();
                     bb.clear();
                     header.clear();
-                    message = generateRandomExchMessage();
+                    message = MessagingUtil.generateRandomExchMessage(exchMessage);
                 } else {
                     undMessage.clear();
                     bb.clear();
                     header.clear();
-                    message = generateRandomUndMessage();
+                    message = MessagingUtil.generateRandomUndMessage(undMessage);
                 }
                 System.out.println(message);
                 message.encode(bb);
@@ -255,8 +250,6 @@ public class SimpleStreamSedesDemo {
                         }
                     }
                 }
-
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -267,51 +260,6 @@ public class SimpleStreamSedesDemo {
         }
     }
 
-    private ExchMessage generateRandomExchMessage() {
-        // total options is random between 1 and N
-        // total options not open is a random number between total options and 0
-
-        long timestamp = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
-        int totalOptions = rand.nextInt(MAX_OPTIONS);
-        int totalOptionsNotOpen = rand.nextInt(totalOptions);
-        byte exchangeCode = exchangeCodes.get(rand.nextInt(exchangeCodes.size()));
-        byte eState = exchState.get(rand.nextInt(exchState.size()));
-        int totUndsNotOpen = rand.nextInt(MAX_UNDERLYINGS);
-
-        exchMessage.timestamp = timestamp;
-        exchMessage.marketId = exchangeCode;
-        exchMessage.exchState = eState;
-        exchMessage.totOptions = totalOptions;
-        exchMessage.totOptionsNotOpen = totalOptionsNotOpen;
-        exchMessage.totUndsNotOpen = totUndsNotOpen;
-
-        return exchMessage;
-    }
-
-
-    public UndMessage generateRandomUndMessage() {
-
-        // total options is random between 1 and N
-        // total options not open is a random number between total options and 0
-
-        long timestamp = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
-        int MAX_OPTIONS = 1000;
-        int totalOptions = rand.nextInt(MAX_OPTIONS);
-        int totalOptionsNotOpen = totalOptions == 0 ? 0 : rand.nextInt(totalOptions);
-        byte exchangeCode = exchangeCodes.get(rand.nextInt(exchangeCodes.size()));
-        byte uState = undState.get(rand.nextInt(undState.size()));
-
-        undMessage.timestamp = timestamp;
-        undMessage.exchangeCode = exchangeCode;
-        String und = underlyings.get(rand.nextInt(underlyings.size()));
-        System.arraycopy(und.getBytes(), 0, undMessage.undName, 0, und.length());
-        undMessage.undState = uState;
-        undMessage.totalOptions = totalOptions;
-        undMessage.totalOptionsNotOpen = totalOptionsNotOpen;
-
-        return undMessage;
-    }
-
 
 
     private void stream100RandomUnds() {
@@ -319,7 +267,7 @@ public class SimpleStreamSedesDemo {
 
         IntStream.range(0, 100)
                 .forEach( i -> {
-                    String randomUnd = underlyings.get(rand.nextInt(underlyings.size()));
+                    String randomUnd = MessagingUtil.underlyings.get(rand.nextInt(MessagingUtil.underlyings.size()));
                     System.out.println(randomUnd);
                 });
     }
@@ -328,7 +276,7 @@ public class SimpleStreamSedesDemo {
         IntStream.range(0, 100)
                 .forEach( i -> {
                     System.out.println(i);
-                    System.out.println(generateRandomUndMessage());
+                    System.out.println(MessagingUtil.generateRandomUndMessage(undMessage));
                 });
     }
 
