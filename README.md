@@ -113,5 +113,4 @@ some reason.  At close, the number of options closed will immediately equal 100%
 of those products that close at another time.
 
 Certain events can be known to occur, for example, the opening and closing event in an exchange.
-Other events
 

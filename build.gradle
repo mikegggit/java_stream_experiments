@@ -5,6 +5,9 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'net.researchgate.release'
 apply plugin: 'maven-publish'
 
+group = "com.notatracer"
+version = "1.0"
+
 buildscript {
   repositories {
     jcenter()
@@ -39,11 +42,15 @@ release {
   tagTemplate='$name-$version'
 }
 
-// Run in-place...
-bootRun {
-  systemProperties System.properties
-//  systemProperty 'spring.profiles.active', 'dev'
+springBoot {
+  mainClass = "com.notatracer.demo.SimpleStreamSedesDemo"
 }
+
+// Run in-place...
+//bootRun {
+//  systemProperties System.properties
+////  systemProperty 'spring.profiles.active', 'dev'
+//}
 
 //processResources {
   //filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
@@ -79,14 +86,14 @@ jar {
   version = "$version"
 }
 
-task runApp(type: JavaExec) {
-  classpath = sourceSets.main.runtimeClasspath
+//task runApp(type: JavaExec) {
+//  classpath = sourceSets.main.runtimeClasspath
 
-  main = 'com.notatracer.demo.StreamProducerDemo'
+//  // main = 'com.notatracer.demo.StreamProducerDemo'
 
-  // arguments to pass to the application
-  // args 'appArg1'
-}
+//  // arguments to pass to the application
+//  // args 'appArg1'
+//}*/
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

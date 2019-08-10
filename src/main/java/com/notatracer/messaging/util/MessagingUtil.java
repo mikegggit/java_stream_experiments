@@ -17,8 +17,23 @@ import static com.notatracer.demo.SimpleStreamSedesDemo.*;
 public class MessagingUtil {
     public static List<String> underlyings = Arrays.asList("AAPL", "BUD", "CAT", "F", "GE", "LLL", "MU", "ORCL", "TSLA", "V", "XOM");
     public static List<Byte> exchangeCodes = Arrays.asList((byte)'A', (byte)'B', (byte)'C');
-    public static List<Byte> undState = Arrays.asList((byte)'C', (byte)'H', (byte)'O');
-    public static List<Byte> exchState = Arrays.asList((byte)'C', (byte)'H', (byte)'O');
+    public static List<Byte> undState = Arrays.asList((byte)'P', (byte)'O', (byte)'H', (byte)'C');
+    public static List<Byte> exchState = Arrays.asList((byte)'P', (byte)'O', (byte)'C');
+
+    /*
+		        <enum class="ExchangeState" type="byte">
+			<enumitem name="PreOpen"        value="P" />
+			<enumitem name="Open"           value="O" />
+			<enumitem name="Close"          value="C" />
+		</enum>
+
+			       <enum class="OptionState" type="byte">
+			<enumitem name="PreOpen"   value="P" />
+			<enumitem name="Open"      value="O" />
+			<enumitem name="Halted"    value="H" />
+			<enumitem name="Close"     value="C" />
+		</enum>
+     */
     public static int MAX_OPTIONS = 1000;
     public static int MAX_UNDERLYINGS = 500;
     public static Random rand = new Random();
