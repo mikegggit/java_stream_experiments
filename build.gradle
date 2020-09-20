@@ -82,7 +82,7 @@ dependencies {
 }
 
 jar {
-  baseName = 'mon-ng-app'
+  baseName = 'sample-stream-generator'
   version = "$version"
 }
 
