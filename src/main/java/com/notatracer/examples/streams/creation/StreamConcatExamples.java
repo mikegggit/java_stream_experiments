@@ -1,4 +1,4 @@
-package com.notatracer.examples.streams;
+package com.notatracer.examples.streams.creation;
 
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -10,9 +10,6 @@ public class StreamConcatExamples {
         StreamConcatExamples examples = new StreamConcatExamples();
         examples.concat();
         examples.merge1();
-
-
-
     }
 
     private void concat() {

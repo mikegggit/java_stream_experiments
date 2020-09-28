@@ -15,6 +15,14 @@ import java.util.stream.Stream;
  * In other words, as opposed to an operation like map, which is purely functional,
  * an operation like limit must keep track of how many stream items have been seen 
  * so far to know when to stop processing.
+ *
+ * Stateful operations require information outside the scope of the operation's input.
+ *
+ * A stateless operation only operates on a single element of the source at a time.
+ *
+ * Stateful operations may require all the stream elements to be calculated, such as skip,
+ * limit, etc.  This obviates the benefits of going parallel, as all data needs to
+ * be brought into a single place in order to perform these kinds of operations.
  */
 public class StatefulIntermediateOpsExamples {
     public static void main(String[] args) {
